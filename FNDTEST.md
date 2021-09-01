@@ -121,6 +121,7 @@ int main(void) {
 	return 0;
 }
 
+---------------------------------------
 
 <timer_h>
 void Timer_Setting(void)
@@ -181,6 +182,8 @@ SIGNAL(SIG_OVERFLOW0)
    }
    TCNT0 = TIMER0_CONSTANT;
 }
+
+---------------------------------------
 
 <UART.H>
 
