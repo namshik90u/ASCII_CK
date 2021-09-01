@@ -46,13 +46,13 @@ void SendTime(int hour,int min,int sec,int visible)
 	Send_Data(':');
 	Send_Data(min/10+'0');
 	Send_Data(min%10+'0');
-	if(visible==3) 									//visible == 3이면 '초'도 표시 
+	if(visible==3) 								
 	{
 		Send_Data(':');														
 		Send_Data(sec/10+'0');
 		Send_Data(sec%10+'0');
 	}
-	Send_Data(0x0d);								//줄바꿈   
+	Send_Data(0x0d);								  
 }
 
 int get_number(char str[]) {
@@ -79,40 +79,40 @@ int main(void) {
 		_delay_ms(100);
 		if(Timer0_Tick==0) 
 		{
-			if(FND_Value3==1 && FND_Value2==15) 	//4번 - 1:15이 되면 알람이 1초에 한번씩 출력
+			if(FND_Value3==1 && FND_Value2==15) 	
 			{ 
-				Send("Alarm : ");										//Alarm :
-				SendTime(FND_Value3,FND_Value2,FND_Value1,3);	//시 분 초 표시  
+				Send("Alarm : ");										
+				SendTime(FND_Value3,FND_Value2,FND_Value1,3);	 
 			}
-			else if(!(PINA & 0x04)) 			  			//3번 - 버튼 누르면 현재시각 표시 
+			else if(!(PINA & 0x04)) 			  			
 				{ 
-				Send("Time : ");										//Time :
-				SendTime(FND_Value3,FND_Value2,FND_Value1,3);		//시 분 초가 표시됨 
+				Send("Time : ");									
+				SendTime(FND_Value3,FND_Value2,FND_Value1,3);
 				}
 		}
 
 		if(received) 
 		{
-			if(strcmp(buf,"NZ")==0) 				//7번 - NZ를 입력하면 현재 시각과 알람 시간 전송 
+			if(strcmp(buf,"NZ")==0) 		
 			{
-				Send("Now Time : ");										//NOW Time :
-				SendTime(FND_Value3,FND_Value2,FND_Value1,3); 				//현재 시 분 초 
-				Send("Setted Alarm : ");									//Setted Alarm :
-				SendTime(Alarm_Hour,Alarm_Min,0,2);							//알람 시 분 
+				Send("Now Time : ");									
+				SendTime(FND_Value3,FND_Value2,FND_Value1,3); 			
+				Send("Setted Alarm : ");									
+				SendTime(Alarm_Hour,Alarm_Min,0,2);						
 			} 
-				else if(buf[0]=='A') 					//5번 - A--:--Z를 입력하면 알람시간 변경 후 Set Alarm : 전송 
+				else if(buf[0]=='A') 					
 				{
-					Alarm_Hour=get_number(&buf[1]);							//입력한 알람의 시를 Alarm_Hour에 저장 
-					Alarm_Min=get_number(&buf[4]);							//입력한 알람의 분을 Alarm_Min에 저장 
-					Send("Set Alarm	: ");									//Set Alarm :
-					SendTime(Alarm_Hour,Alarm_Min,0,2);						//위에서 저장된 Alarm_Hour, Alarm_Min이 표시됨 
+					Alarm_Hour=get_number(&buf[1]);							
+					Alarm_Min=get_number(&buf[4]);							
+					Send("Set Alarm	: ");								
+					SendTime(Alarm_Hour,Alarm_Min,0,2);					
 				} 
-					else if(buf[0]=='T') 				//6번 - T--:--Z를 입력하여 현재 시간 설정 
+					else if(buf[0]=='T') 			
 					{
-					FND_Value3=get_number(&buf[1]);							//get_number로 입력한 숫자가 FND_Value3에 저장 
-					FND_Value2=get_number(&buf[4]);							//get_number로 입력한 숫자가 FND_Value2에 저장  
-					Send("Set Time : ");									//Set Time :
-					SendTime(FND_Value3,FND_Value2,FND_Value1,3);			//변경한 현재 시간 출력 시 분 초 
+					FND_Value3=get_number(&buf[1]);	
+					FND_Value2=get_number(&buf[4]);	
+					Send("Set Time : ");
+					SendTime(FND_Value3,FND_Value2,FND_Value1,3);
 					}
 			Clear();
 		}
