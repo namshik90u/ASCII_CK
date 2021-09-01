@@ -2,7 +2,8 @@
 [TIMER_c.txt](https://github.com/namshik90u/ASCII_CK/files/7088498/TIMER_c.txt)
 [UART_C.txt](https://github.com/namshik90u/ASCII_CK/files/7088501/UART_C.txt)
 
-```#include <avr/io.h>
+```C
+#include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <string.h>
